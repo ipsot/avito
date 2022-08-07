@@ -13,12 +13,8 @@
 <b>Product description: </b>${product.description}<br>
 <b>Price: </b>${product.price}<br>
 <b>City: </b>${product.city}<br>
-<b>Author: </b>${product.author}<br>
+<b>Author: </b><a href="/user/${product.user.id}">${product.user.name}</a><br>
 <hr>
-<h3>Add new product</h3>
-<form action="/product/delete/${product.id}" method="post">
-    <input type="submit" value="Delete product">
-</form>
 </body>
 </head>
 </html>

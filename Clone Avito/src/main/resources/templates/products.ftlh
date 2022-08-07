@@ -1,35 +1,44 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Buysell</title>
-<body>
-<h1>BUYSELL<a href="/login">Enter</a></h1>
-<hr>
-<h4>Products from Russia</h4>
-<form action="/" method="get">
-    Find for product title: <input type="text" name="title"><br>
-    <input type="submit" value="Search"/>
-</form>
-<#list products as product>
-    <div>
-        <p><b>${product.title}</b> ${product.price} rub. | <a href="/product/${product.id}">More...</a></p>
+<#import "blocks/template.ftlh" as t>
+<@t.template user>
+    <h1 style="text-align: center">Поиск товаров</h1><hr>
+    <form method="get" action="/">
+        <div class="form-row">
+            <div class="form-group col-md-2">
+                <label for="searchCity">Город</label>
+                <select id="searchCity" class="form-control">
+                    <option value="">Город не выбран</option>
+                    <option value="Москва">Москва</option>
+                    <option value="Красноярск">Красноярск</option>
+                    <option value="Казань">Казань</option>
+                </select>
+            </div>
+            <div class="form-group col-md-10">
+                <label for="searchWord">Поиск по объявлениям</label>
+                <input type="text" name="searchWord" <#if searchWord??>value="${searchWord}"</#if> class="form-control"
+                       id="searchWord">
+            </div>
+            <button style="width: 100%" type="submit" class="btn btn-dark">Поиск</button>
+        </div>
+    </form>
+    <hr>
+    <div class="card-columns">
+        <#list products as product>
+            <a href="/product/${product.id}" class="product-link">
+                <div class="card text-white bg-dark my-3 product">
+
+                    <img src="/images/${product.previewImageId}"
+                         class="card-img-top">
+                    <div class="card-body">
+                        <h5 class="card-title">${product.title}</h5>
+                        <p class="card-text">${product.price} ₽</p>
+                    </div>
+                    <div class="card-footer">
+                        ${product.city}
+                    </div>
+                </div>
+            </a>
+        <#else>
+            <h1 style="text-align: center">Не найдено</h1>
+        </#list>
     </div>
-<#else>
-    <h3>Have not products</h3>
-</#list>
-<hr>
-<h3>Add new product</h3>
-<form action="/product/create" method="post" enctype="multipart/form-data">
-    Announcement title: <input type="text" name="title"/><br>
-    Product description: <input type="text" name="description"/><br>
-    Price: <input type="number" name="price"/><br>
-    City: <input type="text" name="city"/><br>
-    Author: <input type="text" name="author"/><br>
-    First photo: <input type="file" name="file1"/><br>
-    Second photo: <input type="file" name="file2"/><br>
-    Third photo: <input type="file" name="file3"/><br>
-    <input type="submit" value="Add product">
-</form>
-</body>
-</head>
-</html>
+</@t.template>
